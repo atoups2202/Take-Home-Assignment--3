@@ -1,0 +1,135 @@
+---
+title: "Take Home Assignment 4"
+author: "Alex Toups"
+date: "November 21, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#---------------------------------------------------------------------------------------------------#                #     Take Home Assignment 4                                                                        #
+#       A. Toups November 21, 2019  atoups@tulane.edu                                               #
+#                                                                                                   #
+#   Description: Script will answer the questions to Take Home Assignment 4.                        #                #                                                                                                   #
+#                                                                                                   #
+#   Dependencies: Script requires use of the tidyverse and Hmisc packages but only for              #
+#   illustrative purposes. All other function calls are contained in base R installs as             #
+#   of version 3.5.3                                                                                #
+#---------------------------------------------------------------------------------------------------#
+
+library(tidyverse)
+library(Hmisc)
+
+ghana <- read_csv("C:/Users/Alex/Documents/Tulane/2019-2020/2019/Stats Packages/THA 4/ghana_bednet.csv")
+
+```
+
+```{r docinfo, echo = FALSE}
+
+date()
+sessionInfo()
+```
+
+#Question 1 & 2
+
+```{r}
+dim(ghana)
+```
+
+#There are 26,342 observations and 8 variables.
+
+#Question 3
+
+```{r}
+typeof(ghana)
+str(ghana)
+
+
+ghana$sex[ghana$sex == "F"] <- 1
+ghana$sex[ghana$sex == "."] <- NA
+
+
+describe (ghana$sex) #edit accordinly
+```
+
+#The proportion of males represented in the population is .505.
+
+#Question 4
+
+```{r}
+
+describe(ghana$follyr)
+
+fu <- ghana %>%
+        filter(sex == 1 & bednet == 1) %>%
+        summarise(fu = sum(follyr, na.rm = TRUE))
+
+sum(fu)
+```
+
+# The total number of person years of follow up is 8395.184 for females in the intervention.
+
+#Question 5
+
+```{r}
+
+cluster <- filter(ghana, cluster == 52)
+
+prop <- filter(ghana, cluster == 52, outcome == 1)
+
+dim(cluster)
+dim(prop)
+  9/370
+```
+
+#The proportion of all children in cluster 52 who died during follow up is .0243.
+  
+#Question 6
+
+```{r}
+mean(ghana$agemn)
+sd(ghana$agemn)
+```
+  
+#The mean age is 25.29, and the standard deviation of age is 18.02.
+
+#Question 7 
+
+```{r}
+mortality <- ghana %>%
+  group_by(bednet)%>%
+  summarise(mortality = sum(outcome)/sum(follyr, na.rm = TRUE))
+
+mortality
+```
+
+#The mortality rate in the control arm is .0280, and the mortality rate in the intervention arm is .0235.
+
+#Question 8
+
+```{r}
+ghana %>% group_by(bednet, cluster) %>%
+    summarise(prop_dead = sum(ghana$outcome)/n()) %>%
+    ggplot(aes(x = cluster, y = prop_dead, fill = as.factor(bednet))) +
+    geom_bar(stat = "identity")
+```
+
+#Question 9
+
+```{r}
+fit <- glm(outcome ~ bednet, binomial(link = "logit"), data = ghana)
+
+summary(fit)
+```
+
+#Question 10
+
+```{r}
+OR <- exp(-.17937)
+OR
+```
+
+#The intervention cluster is associated with a lower probability of a child dying throughout follow up. The odds ratio is 0.84.
+
+#The coefficient for this conclusion is -0.17937 (p = .01).
