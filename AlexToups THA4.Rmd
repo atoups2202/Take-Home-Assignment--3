@@ -2,7 +2,7 @@
 title: "Take Home Assignment 4"
 author: "Alex Toups"
 date: "November 21, 2019"
-output: html_document
+output: html_notebook
 ---
 
 ```{r setup, include=FALSE}
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(Hmisc)
 
-ghana <- read_csv("C:/Users/Alex/Documents/Tulane/2019-2020/2019/Stats Packages/THA 4/ghana_bednet.csv")
+ghana <- read_csv("ghana_bednet.csv")
 
 ```
 
@@ -81,6 +81,9 @@ prop <- filter(ghana, cluster == 52, outcome == 1)
 dim(cluster)
 dim(prop)
   9/370
+  
+# THis is correct answer but a poor approach, you dont want to hard code results like this, better to use the filter as you did, then summarize the resulting dataset.... 
+
 ```
 
 #The proportion of all children in cluster 52 who died during follow up is .0243.
