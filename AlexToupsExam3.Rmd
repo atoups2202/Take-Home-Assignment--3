@@ -10,7 +10,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 #---------------------------------------------------------------------------------------------------#                      Exam 3                                                                                            #
-#    A. Toups November 21, 2019  atoups@tulane.edu                                                  #
+#    A. Toups December 15, 2019  atoups@tulane.edu                                                  #
 #                                                                                                   #
 #   Description: Script will answer the questions to Exam 3.                                        #                                                             
 #                                                                                                   #
