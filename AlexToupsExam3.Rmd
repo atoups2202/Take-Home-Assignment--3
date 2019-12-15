@@ -1,0 +1,164 @@
+---
+title: "Exam 3"
+author: "Alex Toups"
+date: "12/15/2019"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#---------------------------------------------------------------------------------------------------#                      Exam 3                                                                                            #
+#    A. Toups November 21, 2019  atoups@tulane.edu                                                  #
+#                                                                                                   #
+#   Description: Script will answer the questions to Exam 3.                                        #                                                             
+#                                                                                                   #
+#   Dependencies: Script requires use of the dplyr, plyr, and ggplot2 packages but only for                   #
+#   illustrative purposes. All other function calls are contained in base R installs as             #
+#   of version 3.5.3                                                                                #
+#---------------------------------------------------------------------------------------------------#
+
+library(dplyr)
+library(plyr)
+library(ggplot2)
+
+```
+
+```{r docinfo, echo = FALSE}
+
+date()
+sessionInfo()
+```
+
+#Question 1 & 2
+
+```{r}
+nola_crime <- read.csv("C:/Users/Alex/Documents/Tulane/2019-2020/2019/Stats Packages/Exam 3/nola_crime_2018.csv")
+
+dim(nola_crime)
+```
+#There are 9,970 observations and 24 variables in the dataset.
+
+#Question 3
+
+```{r}
+unique <- nola_crime %>%
+  arrange(Item_Number) %>%
+  distinct(Item_Number, .keep_all = TRUE) %>%
+  ungroup()
+```
+
+#There are 9,384 unique item numbers.
+
+#Question 4
+
+```{r}
+
+Irish <- filter(unique, GNOCDC_LAB == "IRISH CHANNEL" & Signal_Description == "AGGRAVATED ASSAULT")
+dim(Irish)
+```
+#There is 1 "aggravated" crime in the Irish Channel Neighborhood. 
+
+#Question 5
+```{r}
+
+neighborhood <- data.frame(table(unique$GNOCDC_LAB))
+neighborhood[rev(order(neighborhood$Freq)),]
+```
+#French Quarter and Little Woods have the largest number of crime reports. 
+
+#Question 6
+```{r}
+neighborhood_prop <- neighborhood[, -1]/1000
+```
+#Question 7
+```{r}
+unique_pop <- nola_crime %>%
+  arrange(pop) %>%
+  distinct(pop, .keep_all = TRUE) %>%
+  ungroup()
+
+
+max(unique$pop, unique$GNOCDC_LAB, na.rm = TRUE)
+
+```
+
+#The largest neighborhood by total population is Little Woods with a population of 44,947. 
+
+
+#Question 8
+```{r}
+neighborhood[rev(order(neighborhood$Freq)),]
+
+unique_pop[2, 23:24]
+```
+#The neighborhood with the lowest rate of crime is Florida Development with a population of 4,976. 
+
+
+#Question 9
+
+#Question 10
+
+#Question 11
+```{r}
+mode(unique$Signal_Description)
+
+mode(unique$Charge_Description)
+```
+#The most common cause for a police report to be filed is domestic disturbance, and the most common charge that is filed is theft. 
+
+#Question 12
+
+#Question 13
+
+#Question 14
+
+```{r}
+low <- count(unique, vars=c("GNOCDC_LAB","pop"))
+    arrange(low, low$freq)
+```
+#Lakewood has a population of 13,989 but a very low reporting rate so this hypothesis might be true of this neighborhood. 
+
+#Question 15
+```{r}
+d <- rpois(n = 10000, lambda = 4.7)
+
+data <- data.frame(d = d, 
+                   col = ifelse(d < 5, "red", "blue"))
+
+
+
+ggplot(data, aes(x = d, fill = col)) +
+  geom_histogram(bins = 14, color = "black")
+
+```
+#Question 16
+```{r}
+iris %>% group_by(Species) %>%
+  summarize(mean.sepal.length = mean(Sepal.Length))
+```
+#The mean Sepal length is 5.843. 
+
+#Question 17
+```{r}
+reg1 <- lm(mpg~disp,data=mtcars) 
+summary(reg1)
+
+with(mtcars,plot(disp, mpg))
+abline(reg1)
+
+```
+
+#Question 18
+```{r}
+data <- c(-4.89, -1.93, -1.11, 3.94, 0.46, -3.85, -0.20, 6.04,
+9.36, 7.26, 4.88, 13.45, -2.93, 6.39, -16.22, -3.24, 6.86, 11.87, 1.81, -2.54)
+
+pop_sd <- sd(data)*sqrt((length(data)-1)/(length(data)))
+pop_mean <- mean(data)
+
+z <- (data - pop_mean) / pop_sd
+
+z
+```
