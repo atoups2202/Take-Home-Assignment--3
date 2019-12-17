@@ -71,6 +71,7 @@ neighborhood[rev(order(neighborhood$Freq)),]
 #Question 6
 ```{r}
 neighborhood_prop <- neighborhood[, -1]/1000
+#you properly used the dataset that contained distinct item numbers but please be careful to distinguish between proportion and rate you produced proportion values but we are interested in rates per 1000 persons; thus you would have set it up as total no. crimes in neighborhood*1000/mean population for each neighborhood
 ```
 #Question 7
 ```{r}
@@ -92,6 +93,7 @@ max(unique$pop, unique$GNOCDC_LAB, na.rm = TRUE)
 neighborhood[rev(order(neighborhood$Freq)),]
 
 unique_pop[2, 23:24]
+#correct answer was Lakewood with a total number of crimes of 10 and the population size was 13,989
 ```
 #The neighborhood with the lowest rate of crime is Florida Development with a population of 4,976. 
 
@@ -105,6 +107,8 @@ unique_pop[2, 23:24]
 mode(unique$Signal_Description)
 
 mode(unique$Charge_Description)
+
+#your code tell us the data structure of the above variables, but you left out other steps which led you to the correct answer
 ```
 #The most common cause for a police report to be filed is domestic disturbance, and the most common charge that is filed is theft. 
 
@@ -137,6 +141,9 @@ ggplot(data, aes(x = d, fill = col)) +
 ```{r}
 iris %>% group_by(Species) %>%
   summarize(mean.sepal.length = mean(Sepal.Length))
+
+#your code yielded one mean of sepal length; please review how to write a for loop
+
 ```
 #The mean Sepal length is 5.843. 
 
@@ -147,6 +154,8 @@ summary(reg1)
 
 with(mtcars,plot(disp, mpg))
 abline(reg1)
+
+#lost points for not making the color of the points different for each different number of cylinders in the engine
 
 ```
 
